@@ -1,0 +1,17 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Add New Room{% endblock %}
+
+{% block content %}
+    <h1>Edit Room</h1>
+
+    <form method="POST">
+        <table>
+            {{ form }}
+        </table>
+        {% csrf_token %}
+    <button type="submit">Update</button>
+    </form>
+
+{% endblock %}

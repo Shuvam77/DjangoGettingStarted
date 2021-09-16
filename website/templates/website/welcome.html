@@ -1,0 +1,23 @@
+{% extends "base.html"%}
+
+{% block title%}WELCOME{% endblock %}
+
+{% block content %}
+    <h1>Welcome to this app Meeting Planner</h1>
+    <p>This is a demo application</p>
+<!--    <p>There are currently {{ meetings }} meetings in the database!</p>-->
+    <h2>Meeting List</h2>
+    <ul>
+        {% for meeting in meetings %}
+            <li>
+                <a href="{% url 'detail' meeting.id %}">
+<!--                <a href="/meetings/{{meeting.id}}">-->
+                    {{meeting.title}}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'addNew' %}">Add New Meetings</a><br>
+    <a href="{% url 'room_list' %}">Room List</a>
+{% endblock %}

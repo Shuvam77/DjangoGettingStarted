@@ -1,0 +1,24 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Add New Room{% endblock %}
+
+{% block content %}
+    <h1>Add New Room</h1>
+
+    <div id="form_wrapper">
+        <form method="POST" name="roomForm">
+            <table id="t_form">
+                {{ form }}
+            </table>
+            {% csrf_token %}
+        <button type="submit">Submit</button>
+        <button class="btn btn-link" onclick="javascript:history.back();">Cancel</button>
+        </form>
+    </div>
+
+    <a href="{% url 'welcome' %}">
+    HOME
+    </a>
+
+{% endblock %}

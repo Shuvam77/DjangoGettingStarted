@@ -13,19 +13,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 
-from website.views import welcome, date, about, WebsiteView
+# from .views import detail, room_list
+from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', welcome, name='welcome'),
-    path('date', date),
-    path('about', about),
+    path('<int:id>', views.detail, name='detail'),
+    path('room_list', views.room_list, name='room_list'),
+    path('addNew', views.addNew, name='addNew'),
+    path('newroom', views.newroom, name='newroom'),
+    path('edit_room/<int:id>', views.edit_Room, name='edit_room'),
+    path('delete_room/<int:id>', views.delete_Room, name="delete_room"),
 
-    path('meetings/', include('meetings.urls')),
-
-    #CBV Route Pattern
-    path('view', WebsiteView.as_view())
 ]
