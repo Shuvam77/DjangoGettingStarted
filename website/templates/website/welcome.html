@@ -8,9 +8,9 @@
 <!--    <p>There are currently {{ meetings }} meetings in the database!</p>-->
     <h2>Meeting List</h2>
     <ul>
-        {% for meeting in meetings %}
+        {% for meeting in meeting_list %}
             <li>
-                <a href="{% url 'detail' meeting.id %}">
+                <a href="{% url 'detail' meeting.pk %}">
 <!--                <a href="/meetings/{{meeting.id}}">-->
                     {{meeting.title}}
                 </a>

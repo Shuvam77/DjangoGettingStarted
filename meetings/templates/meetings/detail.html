@@ -4,9 +4,9 @@
 
 {% block content %}
 
-{{ meeting.title }}
+{{ meeting_detail.title }}
 <br>
-This meeting has been scheduled on {{ meeting.date }} at {{ meeting.start_time }} in {{ meeting.room }}.
+This meeting has been scheduled on {{ meeting_detail.date }} at {{ meeting_detail.start_time }} in {{ meeting_detail.room }}.
 
 <br>
 <a href="{% url 'welcome' %}">HOME</a>

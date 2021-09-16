@@ -2,14 +2,15 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.forms import modelform_factory
 from .RoomForm import RoomForm
 
+from django.views.generic import ListView, TemplateView, DetailView
+
 # Create your views here.
 from meetings.models import Meeting, Room
 
-
-def detail(request, id):
-    # meeting = Meeting.objects.get(pk=id)
-    meeting = get_object_or_404(Meeting, pk = id)
-    return render(request, "meetings/detail.html", {"meeting": meeting})
+class Detail(DetailView):
+    model = Meeting
+    template_name = 'meetings/detail.html'
+    context_object_name = 'meeting_detail'
 
 #Class
 MeetingForm = modelform_factory(Meeting, exclude=[])
@@ -24,8 +25,10 @@ def addNew(request):
         form = MeetingForm()
     return render(request, "meetings/addNew.html", {'form': form})
 
-def room_list(request):
-    return render(request, "meetings/roomList.html", {"rooms": Room.objects.all()})
+class RoomList(ListView):
+    model = Room
+    template_name = 'meetings/roomList.html'
+    context_object_name = 'room_list'
 
 def newroom(request):
     if request.method == "POST":
