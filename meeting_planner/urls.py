@@ -25,6 +25,9 @@ urlpatterns = [
     path('about', about),
 
     path('meetings/', include('meetings.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/', include('accounts.urls')),
+
 
     #CBV Route Pattern
     path('view', WebsiteView.as_view())
