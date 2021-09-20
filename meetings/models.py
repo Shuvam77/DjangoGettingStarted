@@ -3,6 +3,8 @@ from datetime import time
 
 import datetime
 from django.core.exceptions import ValidationError
+from django.urls import reverse
+
 # Create your models here.
 
 
@@ -13,6 +15,9 @@ class Room(models.Model):
 
     def __str__(self):
         return f"{self.name}: Room Number {self.room_num} on Floor {self.floor_num}"
+
+    def get_absolute_url(self):
+        return reverse('room_list')
 
 
 class Meeting(models.Model):
@@ -25,6 +30,9 @@ class Meeting(models.Model):
 
     def __str__(self):
         return f"{self.title} at {self.start_time} on {self.date} on {self.room}"
+
+    def get_absolute_url(self):
+        return reverse('detail', args=[str(self.id)])
 
     def save(self, *args, **kwargs):
         if self.date < datetime.date.today():

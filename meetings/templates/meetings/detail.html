@@ -9,6 +9,7 @@
 This meeting has been scheduled on {{ meeting_detail.date }} at {{ meeting_detail.start_time }} in {{ meeting_detail.room }}.
 
 <br>
+<a href="{% url 'edit_meeting' meeting_detail.pk %}">Edit</a>
 <a href="{% url 'welcome' %}">HOME</a>
 
 {% endblock %}

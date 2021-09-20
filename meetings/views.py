@@ -3,60 +3,50 @@ from django.forms import modelform_factory
 from .RoomForm import RoomForm
 
 from django.views.generic import ListView, TemplateView, DetailView
+from  django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 # Create your views here.
 from meetings.models import Meeting, Room
+
 
 class Detail(DetailView):
     model = Meeting
     template_name = 'meetings/detail.html'
     context_object_name = 'meeting_detail'
 
-#Class
-MeetingForm = modelform_factory(Meeting, exclude=[])
 
-def addNew(request):
-    if request.method == "POST":
-        form = MeetingForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("welcome")
-    else:
-        form = MeetingForm()
-    return render(request, "meetings/addNew.html", {'form': form})
+class MeetingCreate(CreateView):
+    model = Meeting
+    template_name = 'meetings/create_meeting.html'
+    fields = '__all__'
+
+
+class EditMeeting(UpdateView):
+    model = Meeting
+    template_name = 'meetings/edit_meeting.html'
+    fields = ['title', 'date', 'start_time', 'duration', 'room']
+
 
 class RoomList(ListView):
     model = Room
     template_name = 'meetings/roomList.html'
     context_object_name = 'room_list'
 
-def newroom(request):
-    if request.method == "POST":
-        form = RoomForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("welcome")
-    else:
-        form = RoomForm()
-    return render(request, "meetings/newroom.html", {"form": form})
 
-def edit_Room(request, id):
-    room = get_object_or_404(Room, pk=id)
-    form = RoomForm(instance=room)
+class RoomCreate(CreateView):
+    model = Room
+    template_name = 'meetings/create_room.html'
+    fields = '__all__'
 
-    if request.method == "POST":
-        form = RoomForm(request.POST, instance=room)
-        if form.is_valid():
-            form.save()
-            return redirect("welcome")
-    context = {"form": form}
-    return render(request, "meetings/edit_room.html", context)
 
-def delete_Room(request, id):
-    room = get_object_or_404(Room, pk=id)
-    if request.method == "POST":
-        room.delete()
-        return redirect("welcome")
+class EditRoom(UpdateView):
+    model = Room
+    template_name = 'meetings/edit_room.html'
+    fields = '__all__'
 
-    context = {"room": room}
-    return render(request, "meetings/delete.html", context)
+
+class DeleteRoom(DeleteView):
+    model = Room
+    template_name = 'meetings/delete_room.html'
+    success_url = reverse_lazy('room_list')

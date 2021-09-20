@@ -6,12 +6,12 @@
 {% block content %}
     <h1>Edit Room</h1>
 
-    <form method="POST">
+    <form action="" method="POST">
         <table>
-            {{ form }}
+            {{ form.as_p }}
         </table>
         {% csrf_token %}
-    <button type="submit">Update</button>
+    <input type="submit" value="Save">
     </form>
 
 {% endblock %}
