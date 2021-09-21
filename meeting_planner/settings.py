@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'website',
     'meetings',
-    'accounts'
+    'accounts',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -130,3 +131,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'welcome'
 LOGOUT_REDIRECT_URL = 'welcome'
+
+AUTH_USER_MODEL = 'users.CustomUser'
