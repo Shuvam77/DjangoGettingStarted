@@ -31,16 +31,22 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+
+    # LOCAL APPS
+    'website',
+    'meetings',
+    'accounts',
+    'users',
+
+    # 3RD PARTY APPS
+    # 'crispy_forms',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'website',
-    'meetings',
-    'accounts',
-    'users'
 ]
 
 MIDDLEWARE = [
@@ -133,3 +139,5 @@ LOGIN_REDIRECT_URL = 'welcome'
 LOGOUT_REDIRECT_URL = 'welcome'
 
 AUTH_USER_MODEL = 'users.CustomUser'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# CRISPY_TEMPLATE_PACK = 'bootstrap4'
