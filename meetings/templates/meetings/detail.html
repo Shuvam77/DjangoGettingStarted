@@ -6,7 +6,7 @@
 
 {{ meeting_detail.title }}
 <br>
-This meeting has been scheduled on {{ meeting_detail.date }} at {{ meeting_detail.start_time }} in {{ meeting_detail.room }}.
+This meeting has been scheduled on {{ meeting_detail.date }} at {{ meeting_detail.start_time }} in {{ meeting_detail.room }} by Mr/Ms.{{ meeting_detail.organizer }}.
 
 <br>
 <a href="{% url 'edit_meeting' meeting_detail.pk %}">Edit</a>

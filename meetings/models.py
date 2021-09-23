@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 from datetime import time
 
 import datetime
@@ -25,11 +26,11 @@ class Meeting(models.Model):
     date = models.DateField()
     start_time = models.TimeField(default=time(9))
     duration = models.IntegerField(default=1)
-
+    organizer = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.title} at {self.start_time} on {self.date} on {self.room}"
+        return f"{self.title} at {self.start_time} on {self.date} on {self.room} organized by {self.organizer}"
 
     def get_absolute_url(self):
         return reverse('detail', args=[str(self.id)])

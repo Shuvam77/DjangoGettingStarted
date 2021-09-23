@@ -141,3 +141,5 @@ LOGOUT_REDIRECT_URL = 'welcome'
 AUTH_USER_MODEL = 'users.CustomUser'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+TIME_ZONE = 'Europe/Istanbul'

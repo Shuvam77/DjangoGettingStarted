@@ -21,8 +21,9 @@ from website.views import Welcome, date, about, WebsiteView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', Welcome.as_view(), name='welcome'),
-    path('', TemplateView.as_view(template_name='website/welcome.html'), name='welcome'),
+    path('', Welcome.as_view(), name='welcome'),
+    # path('', TemplateView.as_view(template_name='website/welcome.html'), name='welcome'),
+
     path('date', date),
     path('about', about),
 
