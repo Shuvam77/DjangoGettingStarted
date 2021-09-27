@@ -136,10 +136,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 LOGIN_REDIRECT_URL = 'welcome'
-LOGOUT_REDIRECT_URL = 'welcome'
+LOGOUT_REDIRECT_URL = 'login'
 
 AUTH_USER_MODEL = 'users.CustomUser'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True     # optional, as this will log you out when browser is closed
+SESSION_COOKIE_AGE = 300                   # 0r 5 * 60, same thing
+SESSION_SAVE_EVERY_REQUEST = True          # Will prevent from logging you out after 300 seconds
+
+
 # CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 TIME_ZONE = 'Europe/Istanbul'

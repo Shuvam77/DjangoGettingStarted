@@ -39,3 +39,15 @@ class Meeting(models.Model):
         if self.date < datetime.date.today():
             raise ValidationError("The date cannot be in the past!")
         super(Meeting, self).save(*args, **kwargs)
+
+
+class Comment(models.Model):
+    meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE, related_name='comments')
+    comment = models.CharField(max_length=150)
+    commenter = models.ForeignKey(get_user_model(), on_delete=models.CASCADE,)
+
+    def __str__(self):
+        return self.comment
+
+    def get_absolute_url(self):
+        return reverse('welcome')
