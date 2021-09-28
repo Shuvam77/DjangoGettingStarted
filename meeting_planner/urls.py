@@ -15,17 +15,27 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import TemplateView
 
-from website.views import welcome, date, about, WebsiteView
+from website.views import Welcome, date, about, WebsiteView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', welcome, name='welcome'),
+    path('', Welcome.as_view(), name='welcome'),
+    # path('', TemplateView.as_view(template_name='website/welcome.html'), name='welcome'),
+
     path('date', date),
     path('about', about),
 
     path('meetings/', include('meetings.urls')),
+    # path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/', include('accounts.urls')),
+    path('users/', include('django.contrib.auth.urls')),
+    path('users/', include('users.urls')),
+
 
     #CBV Route Pattern
     path('view', WebsiteView.as_view())
 ]
+
+

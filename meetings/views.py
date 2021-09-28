@@ -2,58 +2,83 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.forms import modelform_factory
 from .RoomForm import RoomForm
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
+
+from django.views.generic import ListView, TemplateView, DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+
 # Create your views here.
 from meetings.models import Meeting, Room
 
 
-def detail(request, id):
-    # meeting = Meeting.objects.get(pk=id)
-    meeting = get_object_or_404(Meeting, pk = id)
-    return render(request, "meetings/detail.html", {"meeting": meeting})
+class Detail(DetailView):
+    model = Meeting
+    template_name = 'meetings/detail.html'
+    context_object_name = 'meeting_detail'
 
-#Class
-MeetingForm = modelform_factory(Meeting, exclude=[])
 
-def addNew(request):
-    if request.method == "POST":
-        form = MeetingForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("welcome")
-    else:
-        form = MeetingForm()
-    return render(request, "meetings/addNew.html", {'form': form})
+class MeetingCreate(LoginRequiredMixin, CreateView):
+    model = Meeting
+    template_name = 'meetings/create_meeting.html'
+    fields = ['title', 'date', 'start_time', 'duration', 'room']
+    login_url = 'login'
 
-def room_list(request):
-    return render(request, "meetings/roomList.html", {"rooms": Room.objects.all()})
+    def form_valid(self, form):
+        form.instance.organizer = self.request.user
+        return super().form_valid(form)
 
-def newroom(request):
-    if request.method == "POST":
-        form = RoomForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("welcome")
-    else:
-        form = RoomForm()
-    return render(request, "meetings/newroom.html", {"form": form})
 
-def edit_Room(request, id):
-    room = get_object_or_404(Room, pk=id)
-    form = RoomForm(instance=room)
+class EditMeeting(LoginRequiredMixin, UpdateView):
+    model = Meeting
+    template_name = 'meetings/edit_meeting.html'
+    fields = ['title', 'date', 'start_time', 'duration', 'room']
+    login_url = 'login'
 
-    if request.method == "POST":
-        form = RoomForm(request.POST, instance=room)
-        if form.is_valid():
-            form.save()
-            return redirect("welcome")
-    context = {"form": form}
-    return render(request, "meetings/edit_room.html", context)
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if obj.organizer != self.request.user:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
 
-def delete_Room(request, id):
-    room = get_object_or_404(Room, pk=id)
-    if request.method == "POST":
-        room.delete()
-        return redirect("welcome")
 
-    context = {"room": room}
-    return render(request, "meetings/delete.html", context)
+class DeleteMeeting(LoginRequiredMixin, DeleteView):
+    model = Meeting
+    template_name = 'meetings/delete_meeting.html'
+    success_url = reverse_lazy('welcome')
+    login_url = 'login'
+
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if obj.organizer != self.request.user:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
+
+
+class RoomList(LoginRequiredMixin, ListView):
+    model = Room
+    template_name = 'meetings/roomList.html'
+    context_object_name = 'room_list'
+    login_url = 'login'
+
+
+class RoomCreate(LoginRequiredMixin, CreateView):
+    model = Room
+    template_name = 'meetings/create_room.html'
+    fields = '__all__'
+    login_url = 'login'
+
+
+class EditRoom(LoginRequiredMixin, UpdateView):
+    model = Room
+    template_name = 'meetings/edit_room.html'
+    fields = '__all__'
+    login_url = 'login'
+
+
+class DeleteRoom(LoginRequiredMixin, DeleteView):
+    model = Room
+    template_name = 'meetings/delete_room.html'
+    success_url = reverse_lazy('room_list')
+    login_url = 'login'

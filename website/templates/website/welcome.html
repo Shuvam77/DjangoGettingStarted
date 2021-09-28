@@ -5,19 +5,35 @@
 {% block content %}
     <h1>Welcome to this app Meeting Planner</h1>
     <p>This is a demo application</p>
-<!--    <p>There are currently {{ meetings }} meetings in the database!</p>-->
     <h2>Meeting List</h2>
-    <ul>
-        {% for meeting in meetings %}
-            <li>
-                <a href="{% url 'detail' meeting.id %}">
-<!--                <a href="/meetings/{{meeting.id}}">-->
-                    {{meeting.title}}
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+        {% for meeting in meeting_list %}
 
-    <a href="{% url 'addNew' %}">Add New Meetings</a><br>
+        <div class="card">
+            <div class="card-header">
+                <span class="font-weight-bold"><a href="{% url 'detail' meeting.pk %}">{{ meeting.title }}</a></span> &middot;
+                <span class="text-muted">by {{ meeting.organizer }} |
+                {{ meeting.date }}</span>
+            </div>
+            <div class="card-body">
+                    {{meeting}}
+                <!-- Changes start here! -->
+                {% if user.is_authenticated %}
+                    <a href="{% url 'edit_meeting' meeting.pk %}">Edit</a> |
+                    <a href="{% url 'delete_meeting' meeting.pk %}">Delete</a>
+                {% endif %}
+            </div>
+            <div class="card-footer">
+                {% for comment in meeting.comments.all %}
+                    <p>
+                    <span class="font-weight-bold">{{ comment.commenter }} &middot;</span>
+                        {{ comment }}
+                    </p>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+
+
+    <a href="{% url 'create_meeting' %}">Add New Meetings</a><br>
     <a href="{% url 'room_list' %}">Room List</a>
 {% endblock %}

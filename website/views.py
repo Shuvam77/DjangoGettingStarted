@@ -1,14 +1,16 @@
 from django.http import HttpResponse
 from datetime import datetime
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 
 # Create your views here.
 from meetings.models import Meeting
 
 
-def welcome(request):
-    return render(request, 'website/welcome.html', {'meetings': Meeting.objects.all()})
+class Welcome(ListView):
+    model = Meeting
+    template_name = 'website/welcome.html'
+    context_object_name = 'meeting_list'
 
 def date(request):
     return HttpResponse("This page was served at:" +str(datetime.now()));
