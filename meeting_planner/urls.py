@@ -29,12 +29,17 @@ urlpatterns = [
 
     path('meetings/', include('meetings.urls')),
     # path('accounts/', include('django.contrib.auth.urls')),
-    path('accounts/', include('accounts.urls')),
+    # path('accounts/', include('accounts.urls')),
     path('users/', include('django.contrib.auth.urls')),
     path('users/', include('users.urls')),
 
+    # API
+    path('api/', include('api.urls')),
+    path('api-auth/', include('rest_framework.urls')),
+    path('api/rest-auth/', include('rest_auth.urls')),
+    path('api/rest-auth/registration/', include('rest_auth.registration.urls')),
 
-    #CBV Route Pattern
+    # CBV Route Pattern
     path('view', WebsiteView.as_view())
 ]
 
