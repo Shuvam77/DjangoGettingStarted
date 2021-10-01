@@ -15,21 +15,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic import TemplateView
+
+from rest_framework.documentation import include_docs_urls
+from rest_framework.schemas import get_schema_view
+from rest_framework_swagger.views import get_swagger_view
 
 from website.views import Welcome, date, about, WebsiteView
+
+
+API_TITLE = 'MEETING API'
+API_DESCRIPTION = 'A web api to organize meeting.'
+
+schema_view = get_swagger_view(title=API_TITLE)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', Welcome.as_view(), name='welcome'),
-    # path('', TemplateView.as_view(template_name='website/welcome.html'), name='welcome'),
-
-    path('date', date),
-    path('about', about),
 
     path('meetings/', include('meetings.urls')),
-    # path('accounts/', include('django.contrib.auth.urls')),
-    # path('accounts/', include('accounts.urls')),
     path('users/', include('django.contrib.auth.urls')),
     path('users/', include('users.urls')),
 
@@ -39,8 +42,9 @@ urlpatterns = [
     path('api/rest-auth/', include('rest_auth.urls')),
     path('api/rest-auth/registration/', include('rest_auth.registration.urls')),
 
-    # CBV Route Pattern
-    path('view', WebsiteView.as_view())
+    path('docs/', include_docs_urls(title=API_TITLE, description=API_DESCRIPTION)),
+    # path('schema/', schema_view),
+    path('swagger-docs/', schema_view),
 ]
 
 

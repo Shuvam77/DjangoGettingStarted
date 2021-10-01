@@ -1,12 +1,12 @@
 from django.urls import path
+from rest_framework.routers import SimpleRouter
 
-from .views import MeetingDetailView, MeetingCreateView, UserList, UserDetail
+from .views import UserViewSet, MeetingViewSet
 
-urlpatterns = [
-    path('', MeetingCreateView.as_view(), name='create_meeting'),
-    # path('', MeetingAPIView.as_view(), name='welcome'),
-    path('<int:pk>/', MeetingDetailView.as_view(), name='detail_meeting'),
-    path('users/', UserList.as_view(), name='user_list'),
-    path('users/<int:pk>/', UserDetail.as_view(), name='user_detail'),
 
-]
+router = SimpleRouter()
+router.register('users', UserViewSet, basename='users')
+router.register('', MeetingViewSet, basename='meeting')
+
+
+urlpatterns = router.urls
